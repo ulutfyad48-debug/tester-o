@@ -11,15 +11,17 @@
         body { font-family: 'Noto Nastaliq Urdu', serif; background: var(--bg); color: var(--text); }
         .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
         
+        /* کور امیج اسٹائل */
         .cover-section { width: 100%; height: 280px; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .cover-image { width: 100%; height: 100%; object-fit: cover; }
         .cover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 
+        /* مینو کارڈز */
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border-radius: 18px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid #334155; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card { background: var(--card); border-radius: 18px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid #334155; }
         .card img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
 
+        /* سیکشن مینجمنٹ */
         .content-section { display: none; }
         .active { display: block; animation: fadeIn 0.4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -30,28 +32,40 @@
 
         .btn-back { background: #f1f5f9; color: #0f172a; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
         
+        /* موڈلز */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
         .modal-content { background: white; color: #1e293b; padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; }
         .btn-wa { background: #22c55e; color: white; text-decoration: none; padding: 12px; display: block; border-radius: 10px; margin: 15px 0; font-weight: bold; }
-        .btn-secondary { background: #64748b; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="container" id="home-screen">
         <div class="cover-section">
-            <img src="https://lh3.googleusercontent.com/d/1X_fQ7p9Q0V4H3W2X1E7S8U9A0V1B2C3D" class="cover-image" alt="ناولستان">
+            <img src="https://lh3.googleusercontent.com/d/YOUR_COVER_IMAGE_ID" class="cover-image" alt="ناولستان کور">
             <div class="cover-overlay">
                 <h1 style="font-size: 3rem;">ناولستان</h1>
                 <p style="font-size: 1.2rem;">ناول: بازگشتِ عشق</p>
             </div>
         </div>
         <div class="categories-grid">
-            <div class="card" onclick="showSection('novels')"><img src="https://lh3.googleusercontent.com/d/1X_fQ7p9Q0V4H3W2X1E7S8U9A0V1B2C3D"><h3>📖 ناول پڑھیں</h3></div>
-            <div class="card" onclick="showSection('poetry')"><img src="https://lh3.googleusercontent.com/d/1Bje7U53wmDHhuUrAvj-NaHDAXAfMiG_h"><h3>📜 اردو شاعری</h3></div>
-            <div class="card" onclick="showSection('codewords')"><img src="https://lh3.googleusercontent.com/d/1n8MuNqMaOe6eAntLDf-zTHXaNji3NEkn"><h3>🔐 کوڈ ورڈز</h3></div>
-            <div class="card" onclick="showSection('about')"><img src="https://lh3.googleusercontent.com/d/1QHIFfbqFIcpzHKEwEzPlRovHrC4t7wkX"><h3>👤 مصنف</h3></div>
+            <div class="card" onclick="showSection('novels')">
+                <img src="https://lh3.googleusercontent.com/d/YOUR_NOVEL_ICON_ID">
+                <h3>📖 ناول پڑھیں</h3>
+            </div>
+            <div class="card" onclick="showSection('poetry')">
+                <img src="https://lh3.googleusercontent.com/d/YOUR_POETRY_ICON_ID">
+                <h3>📜 اردو شاعری</h3>
+            </div>
+            <div class="card" onclick="showSection('codewords')">
+                <img src="https://lh3.googleusercontent.com/d/YOUR_CODE_ICON_ID">
+                <h3>🔐 کوڈ ورڈز</h3>
+            </div>
+            <div class="card" onclick="showSection('about')">
+                <img src="https://lh3.googleusercontent.com/d/YOUR_ABOUT_ICON_ID">
+                <h3>👤 مصنف</h3>
+            </div>
         </div>
     </div>
 
@@ -79,8 +93,9 @@
         <div class="modal-content">
             <h2 style="color:#e11d48">🔒 لاک ہے</h2>
             <p id="payment-message" style="margin: 15px 0;"></p>
-            <a id="wa-btn" href="#" class="btn-wa" target="_blank">واٹس ایپ سے کوڈ حاصل کریں</a>
-            <button class="btn-secondary" onclick="showCodeModal()">کوڈ درج کریں</button>
+            <a id="wa-btn" href="#" class="btn-wa" target="_blank">واٹس ایپ سے کوڈ لیں</a>
+            <button onclick="showCodeModal()">کوڈ درج کریں</button>
+            <button onclick="closeModal()">بند کریں</button>
         </div>
     </div>
 
