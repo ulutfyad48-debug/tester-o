@@ -6,21 +6,19 @@ const FOLDERS = {
 };
 
 const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE';
-
 let purchasedEpisodes = JSON.parse(localStorage.getItem('purchased_episodes')) || [];
+let currentPkg = null;
 
-window.onload = () => { loadEpisodes(); };
+window.onload = loadEpisodes;
 
 function showSection(section) {
     document.getElementById('home-screen').style.display = 'none';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-    const targetSection = document.getElementById(section + '-section');
-    targetSection.classList.add('active');
-
-    // Baaki sections load karne ka naya tarika
-    if (section === 'poetry') loadDriveContent(FOLDERS.poetry, 'poetry-container');
-    if (section === 'codewords') loadDriveContent(FOLDERS.codewords, 'codewords-container');
-    if (section === 'about') loadDriveContent(FOLDERS.about, 'about-container');
+    document.getElementById(section + '-section').classList.add('active');
+    
+    if (section !== 'novels') {
+        loadDriveContent(FOLDERS[section], section + '-container');
+    }
 }
 
 function showHome() {
@@ -28,34 +26,66 @@ function showHome() {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
 }
 
-async function loadDriveContent(folderId, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '<div style="color:white; text-align:center;">لوڈ ہو رہا ہے...</div>';
-    
-    // API Query jo folder ke andar ki saari files nikaalti hai
-    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}&fields=files(id,name,webViewLink)`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
+function loadEpisodes() {
+    const container = document.getElementById('episodes-container');
+    container.innerHTML = '';
+    for (let i = 1; i <= 100; i++) {
+        const card = document.createElement('div');
+        card.className = 'item-box';
+        let pkg = i <= 10 ? 'free' : (i <= 80 ? Math.ceil((i-10)/5) : 'final');
         
-        if (data.files && data.files.length > 0) {
-            container.innerHTML = '';
-            data.files.forEach(file => {
-                const item = document.createElement('div');
-                item.className = 'episode-card'; // Styling purani hi use hogi
-                item.style.width = '100%';
-                item.style.marginBottom = '10px';
-                item.innerHTML = `📄 ${file.name}`;
-                item.onclick = () => window.open(file.webViewLink, '_blank');
-                container.appendChild(item);
-            });
+        if (i <= 10 || purchasedEpisodes.includes('pkg_'+pkg)) {
+            card.innerHTML = `قسط ${i}<br><small>اوپن</small>`;
+            card.onclick = () => openNovel(i);
         } else {
-            container.innerHTML = '<div style="color:white; text-align:center;">ابھی کوئی فائل موجود نہیں ہے۔</div>';
+            card.innerHTML = `قسط ${i}<br><small>لاک</small>`;
+            card.onclick = () => {
+                currentPkg = pkg;
+                document.getElementById('payment-message').innerText = `قسط ${i} لاک ہے۔ کوڈ کے لیے رابطہ کریں۔`;
+                document.getElementById('wa-btn').href = `https://wa.me/923125540048?text=I want code for Ep ${i}`;
+                document.getElementById('payment-modal').classList.add('active');
+            };
         }
-    } catch (error) {
-        container.innerHTML = '<div style="color:white; text-align:center;">کنکشن کا مسئلہ یا فولڈر پبلک نہیں ہے۔</div>';
+        container.appendChild(card);
     }
 }
 
-// Baki Novel load hone ka function wahi rahega jo pehle diya tha
+async function loadDriveContent(folderId, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = 'لوڈ ہو رہا ہے...';
+    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}`;
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        container.innerHTML = '';
+        data.files.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'item-box';
+            div.innerHTML = `📄 ${f.name}`;
+            div.onclick = () => window.open(f.webViewLink, '_blank');
+            container.appendChild(div);
+        });
+    } catch (e) { container.innerHTML = 'فائلیں لوڈ نہیں ہو سکیں۔'; }
+}
+
+async function openNovel(num) {
+    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDERS.novel}'+in+parents+and+name+contains+'${num}'+and+trashed=false&key=${API_KEY}`;
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.files.length > 0) window.open(data.files[0].webViewLink, '_blank');
+        else alert('فائل نہیں ملی۔');
+    } catch (e) { alert('کنکشن مسئلہ۔'); }
+}
+
+function verifyCode() {
+    const input = document.getElementById('code-input').value.trim().toUpperCase();
+    if (input === `YHD${currentPkg}MS`.toUpperCase()) {
+        purchasedEpisodes.push('pkg_'+currentPkg);
+        localStorage.setItem('purchased_episodes', JSON.stringify(purchasedEpisodes));
+        location.reload();
+    } else alert('غلط کوڈ!');
+}
+
+function closeModal() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+function showCodeModal() { closeModal(); document.getElementById('code-modal').classList.add('active'); }
