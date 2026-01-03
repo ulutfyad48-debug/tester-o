@@ -1,0 +1,12 @@
+body { background: #1a1a1a; color: white; text-align: center; font-family: 'Arial'; }
+.main-cover { width: 100%; max-height: 400px; object-fit: cover; border-bottom: 4px solid #ffcc00; }
+.hero-text { padding: 20px; background: linear-gradient(transparent, #1a1a1a); }
+.main-categories { display: flex; justify-content: space-around; padding: 20px; flex-wrap: wrap; }
+.cat-item { cursor: pointer; transition: 0.3s; width: 150px; }
+.cat-item img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #ffcc00; }
+.grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; padding: 20px; }
+.ep-btn { padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+.active-free { background: #007bff; color: white; } /* بلو بٹن */
+.active-paid { background: #ffcc00; color: black; } /* گولڈن بٹن */
+.inactive { background: #444; color: #888; cursor: not-allowed; } /* گرے بٹن */
+.tab { display: none; } .tab.active { display: block; }
