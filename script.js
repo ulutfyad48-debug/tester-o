@@ -11,7 +11,6 @@ const MY_WA = "923125540048";
 let unlocked = JSON.parse(localStorage.getItem('nov_unlocked')) || [];
 let currentPkg = "";
 
-// ڈیلی کوڈ فارمولا
 function getDailyCode(pkgId) {
     const d = new Date();
     return (pkgId + d.getDate() + (d.getMonth() + 1) + "X").toUpperCase();
@@ -32,15 +31,17 @@ function renderNovel() {
     list.innerHTML = '';
     for (let i = 1; i <= 100; i++) {
         let pkg = getPkg(i);
-        const card = document.createElement('div');
         const isOpen = i <= 10 || unlocked.includes(pkg.id);
         
+        const card = document.createElement('div');
         card.className = `card ${isOpen ? '' : 'locked'}`;
-        card.innerHTML = `قسط ${i} <span class="status" style="color:${isOpen?'green':'red'}">${isOpen?'🔓 اوپن':'🔒 لاک'}</span>`;
+        card.innerHTML = `قسط ${i} <br> <small style="color:${isOpen?'green':'red'}">${isOpen?'🔓 اوپن':'🔒 لاک'}</small>`;
+        
         card.onclick = isOpen ? () => fetchAndOpen(i, FOLDERS.novel) : () => {
             currentPkg = pkg.id;
             document.getElementById('pay-info').innerText = `قسط ${i} پیکیج کا حصہ ہے۔ قیمت: ${pkg.price} روپے۔`;
-            document.getElementById('wa-link').href = `https://wa.me/${MY_WA}?text=مجھے پیکیج ${pkg.id} خریدنا ہے۔`;
+            // واٹس ایپ بیہیویر کو بہتر بنایا گیا ہے تاکہ میسج میں مکمل تفصیل جائے
+            document.getElementById('wa-link').href = `https://wa.me/${MY_WA}?text=السلام علیکم! مجھے ناول کا پیکیج ${pkg.id} (قسط ${i}) خریدنا ہے۔ قیمت: ${pkg.price} روپے۔`;
             document.getElementById('pay-modal').classList.add('active');
         };
         list.appendChild(card);
@@ -55,14 +56,15 @@ async function loadFiles(fId) {
         const res = await fetch(url);
         const data = await res.json();
         list.innerHTML = '';
+        if(data.files.length === 0) { list.innerHTML = 'کوئی فائل نہیں ملی۔'; return; }
         data.files.forEach(f => {
             const c = document.createElement('div');
             c.className = 'card';
             c.innerText = f.name.replace('.pdf','');
-            c.onclick = () => window.location.assign(f.webViewLink);
+            c.onclick = () => window.open(f.webViewLink, '_blank'); // نئی ونڈو میں فائل کھولیں
             list.appendChild(c);
         });
-    } catch (e) { list.innerHTML = 'فائلیں لوڈ نہیں ہو سکیں۔'; }
+    } catch (e) { list.innerHTML = 'فائلیں لوڈ نہیں ہو سکیں۔ پرمیشن چیک کریں۔'; }
 }
 
 function getPkg(n) {
@@ -77,16 +79,16 @@ async function fetchAndOpen(name, fId) {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        if (data.files.length > 0) window.location.assign(data.files[0].webViewLink);
-        else alert("فائل نہیں ملی!");
-    } catch (e) { alert("ایرر!"); }
+        if (data.files.length > 0) window.open(data.files[0].webViewLink, '_blank');
+        else alert("فائل ڈرائیو میں نہیں ملی!");
+    } catch (e) { alert("نیٹ ورک ایرر!"); }
 }
 
 function checkAccess() {
     if (document.getElementById('user-code').value.trim().toUpperCase() === getDailyCode(currentPkg)) {
         unlocked.push(currentPkg);
         localStorage.setItem('nov_unlocked', JSON.stringify(unlocked));
-        alert("کامیاب!"); location.reload();
+        alert("ان لاک ہو گیا!"); location.reload();
     } else alert("غلط کوڈ!");
 }
 
