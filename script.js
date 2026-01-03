@@ -1,23 +1,20 @@
 const FOLDERS = {
     novel: '1PWDGvI9Pxkzma58-BDPZYAxq4Mhw1gdu',
-    poetry: '1Bje7U53wmDHhuUrAvj-NaHDAXAfMiG_h',
-    codewords: '1n8MuNqMaOe6eAntLDf-zTHXaNji3NEkn'
+    poetry: '1Bje7U53wmDHhuUrAvj-NaHDAXAfMiG_h'
 };
 
-const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE'; // آپ کی API Key
+const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE';
 
 let purchasedEpisodes = JSON.parse(localStorage.getItem('purchased_episodes')) || [];
 let currentPurchase = null;
 
-window.addEventListener('DOMContentLoaded', () => {
-    loadEpisodes();
-});
+window.onload = () => { loadEpisodes(); };
 
 function showSection(section) {
     document.getElementById('home-screen').style.display = 'none';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     document.getElementById(section + '-section').classList.add('active');
-    if (section === 'poetry') loadDriveContent(FOLDERS.poetry, 'poetry-container');
+    if (section === 'poetry') loadFiles(FOLDERS.poetry, 'poetry-container');
 }
 
 function showHome() {
@@ -27,86 +24,68 @@ function showHome() {
 
 function loadEpisodes() {
     const container = document.getElementById('episodes-container');
-    if (!container) return;
     container.innerHTML = '';
-
     for (let i = 1; i <= 100; i++) {
         const card = document.createElement('div');
         card.className = 'episode-card';
-        // پیکیج کا حساب: ہر 5 اقساط کے لیے ایک پیکیج نمبر
-        let packageId = i <= 10 ? 'free' : (i <= 80 ? Math.ceil((i - 10) / 5) : 'final');
+        let pkgId = i <= 10 ? 'free' : (i <= 80 ? Math.ceil((i-10)/5) : 'final');
         
-        if (i <= 10 || purchasedEpisodes.includes('pkg_' + packageId)) {
-            card.innerHTML = `قسط ${i}<br><span style="font-size:12px; color:green;">کھل گئی</span>`;
-            card.onclick = () => openEpisode(i);
+        if (i <= 10 || purchasedEpisodes.includes('pkg_'+pkgId)) {
+            card.innerHTML = `قسط ${i}<br><span style="color:green;font-size:10px;">اوپن</span>`;
+            card.onclick = () => openFile(i);
         } else {
-            let price = i <= 50 ? 50 : (i <= 80 ? 100 : 300);
-            card.innerHTML = `قسط ${i}<br><span style="font-size:12px; color:red;">${price} روپے</span>`;
-            card.onclick = () => showPaymentModal(i, price, packageId);
+            card.innerHTML = `قسط ${i}<br><span style="color:red;font-size:10px;">لاک</span>`;
+            card.onclick = () => {
+                currentPurchase = { pkgId };
+                document.getElementById('payment-message').innerText = `قسط ${i} لاک ہے۔ کوڈ کے لیے رابطہ کریں۔`;
+                document.getElementById('payment-modal').classList.add('active');
+            };
         }
         container.appendChild(card);
     }
 }
 
-function showPaymentModal(num, price, pkgId) {
-    currentPurchase = { episodeNum: num, packageId: pkgId };
-    document.getElementById('payment-message').innerText = `قسط ${num} دیکھنے کے لیے پیکیج خریدیں۔ قیمت: ${price} روپے`;
-    document.getElementById('payment-modal').classList.add('active');
-}
-
-function showCodeModal() {
-    document.getElementById('payment-modal').classList.remove('active');
-    document.getElementById('code-modal').classList.add('active');
-}
-
-function closeModal() {
-    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-}
-
 function verifyCode() {
     const input = document.getElementById('code-input').value.trim().toUpperCase();
-    const pkg = currentPurchase.packageId;
-    
-    // فارمولا: YHD + پیکیج نمبر + MS
-    const expectedCode = `YHD${pkg}MS`.toUpperCase();
-    
-    if (input === expectedCode) {
-        purchasedEpisodes.push('pkg_' + pkg);
+    const expected = `YHD${currentPurchase.pkgId}MS`.toUpperCase();
+    if (input === expected) {
+        purchasedEpisodes.push('pkg_'+currentPurchase.pkgId);
         localStorage.setItem('purchased_episodes', JSON.stringify(purchasedEpisodes));
-        alert('✅ مبارک ہو! پورا پیکیج ان لاک ہو گیا۔');
-        closeModal();
-        loadEpisodes();
-    } else {
-        alert('❌ غلط کوڈ! درست کوڈ درج کریں۔');
-    }
+        alert('کامیاب!');
+        location.reload();
+    } else { alert('غلط کوڈ!'); }
 }
 
-async function openEpisode(num) {
-    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDERS.novel}'+in+parents&key=${API_KEY}&fields=files(id,name,webViewLink)`;
+async function openFile(num) {
+    // فائل کو نام کے ذریعے ڈھونڈنا
+    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDERS.novel}'+in+parents+and+name+contains+'${num}'+and+trashed=false&key=${API_KEY}`;
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const file = data.files.find(f => f.name.includes(num.toString()));
-        if (file) window.open(file.webViewLink, '_blank');
-        else alert('یہ قسط ابھی اپ لوڈ نہیں ہوئی۔');
-    } catch (e) { alert('کنکشن کا مسئلہ۔'); }
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.files && data.files.length > 0) {
+            window.open(data.files[0].webViewLink, '_blank');
+        } else { alert('فائل ڈرائیو پر نہیں ملی۔ نام چیک کریں (مثال: 11.pdf)'); }
+    } catch (e) { alert('کنکشن ایرر'); }
 }
 
-async function loadDriveContent(folderId, containerId) {
-    const container = document.getElementById(containerId);
+async function loadFiles(fId, cId) {
+    const container = document.getElementById(cId);
     container.innerHTML = 'لوڈ ہو رہا ہے...';
+    const url = `https://www.googleapis.com/drive/v3/files?q='${fId}'+in+parents+and+trashed=false&key=${API_KEY}`;
     try {
-        const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${API_KEY}&fields=files(id,name,webViewLink)`;
-        const response = await fetch(url);
-        const data = await response.json();
+        const res = await fetch(url);
+        const data = await res.json();
         container.innerHTML = '';
-        data.files.forEach(file => {
-            const item = document.createElement('div');
-            item.className = 'episode-card';
-            item.style.width = '100%';
-            item.innerHTML = `📄 ${file.name}`;
-            item.onclick = () => window.open(file.webViewLink, '_blank');
-            container.appendChild(item);
+        data.files.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'episode-card';
+            div.style.width = '100%';
+            div.innerHTML = f.name;
+            div.onclick = () => window.open(f.webViewLink, '_blank');
+            container.appendChild(div);
         });
-    } catch (e) { container.innerHTML = 'فائلیں نہیں ملیں۔'; }
+    } catch (e) { container.innerHTML = 'مسئلہ آیا۔'; }
 }
+
+function closeModal() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+function showCodeModal() { closeModal(); document.getElementById('code-modal').classList.add('active'); }
