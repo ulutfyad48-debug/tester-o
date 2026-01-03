@@ -6,6 +6,8 @@ const FOLDERS = {
 };
 
 const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE';
+const WHATSAPP = "923125540048";
+
 let purchasedEpisodes = JSON.parse(localStorage.getItem('purchased_episodes')) || [];
 let currentPkg = null;
 
@@ -15,10 +17,7 @@ function showSection(section) {
     document.getElementById('home-screen').style.display = 'none';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     document.getElementById(section + '-section').classList.add('active');
-    
-    if (section !== 'novels') {
-        loadDriveContent(FOLDERS[section], section + '-container');
-    }
+    if (section !== 'novels') loadDriveContent(FOLDERS[section], section + '-container');
 }
 
 function showHome() {
@@ -33,16 +32,15 @@ function loadEpisodes() {
         const card = document.createElement('div');
         card.className = 'item-box';
         let pkg = i <= 10 ? 'free' : (i <= 80 ? Math.ceil((i-10)/5) : 'final');
-        
         if (i <= 10 || purchasedEpisodes.includes('pkg_'+pkg)) {
             card.innerHTML = `قسط ${i}<br><small>اوپن</small>`;
-            card.onclick = () => openNovel(i);
+            card.onclick = () => openFileByName(i, FOLDERS.novel);
         } else {
             card.innerHTML = `قسط ${i}<br><small>لاک</small>`;
             card.onclick = () => {
                 currentPkg = pkg;
-                document.getElementById('payment-message').innerText = `قسط ${i} لاک ہے۔ کوڈ کے لیے رابطہ کریں۔`;
-                document.getElementById('wa-btn').href = `https://wa.me/923125540048?text=I want code for Ep ${i}`;
+                document.getElementById('payment-message').innerText = `قسط ${i} لاک ہے۔`;
+                document.getElementById('wa-btn').href = `https://wa.me/${WHATSAPP}?text=Code for Ep ${i}`;
                 document.getElementById('payment-modal').classList.add('active');
             };
         }
@@ -53,7 +51,7 @@ function loadEpisodes() {
 async function loadDriveContent(folderId, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = 'لوڈ ہو رہا ہے...';
-    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}&fields=files(id,name,webViewLink)`;
     try {
         const res = await fetch(url);
         const data = await res.json();
@@ -61,21 +59,22 @@ async function loadDriveContent(folderId, containerId) {
         data.files.forEach(f => {
             const div = document.createElement('div');
             div.className = 'item-box';
+            div.style.width = '100%'; div.style.marginBottom = '10px';
             div.innerHTML = `📄 ${f.name}`;
             div.onclick = () => window.open(f.webViewLink, '_blank');
             container.appendChild(div);
         });
-    } catch (e) { container.innerHTML = 'فائلیں لوڈ نہیں ہو سکیں۔'; }
+    } catch (e) { container.innerHTML = 'مسئلہ آیا۔'; }
 }
 
-async function openNovel(num) {
-    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDERS.novel}'+in+parents+and+name+contains+'${num}'+and+trashed=false&key=${API_KEY}`;
+async function openFileByName(num, folderId) {
+    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+name+contains+'${num}'+and+trashed=false&key=${API_KEY}&fields=files(id,webViewLink)`;
     try {
         const res = await fetch(url);
         const data = await res.json();
         if (data.files.length > 0) window.open(data.files[0].webViewLink, '_blank');
         else alert('فائل نہیں ملی۔');
-    } catch (e) { alert('کنکشن مسئلہ۔'); }
+    } catch (e) { alert('انٹرنیٹ چیک کریں۔'); }
 }
 
 function verifyCode() {
