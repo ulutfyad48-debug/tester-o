@@ -11,21 +11,16 @@
         body { font-family: 'Noto Nastaliq Urdu', serif; background: var(--bg); color: var(--text); }
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
         
-        /* ہیڈر */
         .header { text-align: center; padding: 40px 10px; background: linear-gradient(135deg, #1e293b 0%, #020617 100%); border-bottom: 4px solid var(--accent); border-radius: 0 0 30px 30px; margin-bottom: 30px; }
         .header h1 { font-size: 3rem; color: #fff; }
 
-        /* مینو */
         .menu-grid { display: grid; gap: 15px; }
         .nav-btn { background: var(--card); padding: 22px; border-radius: 15px; border: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; }
 
-        /* لسٹ کارڈز */
         .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
         .card { background: white; color: #0f172a; padding: 20px 10px; border-radius: 12px; text-align: center; font-weight: bold; cursor: pointer; border-bottom: 4px solid #cbd5e1; }
         .card.locked { background: #cbd5e1; color: #64748b; }
-        .status { font-size: 11px; display: block; margin-top: 5px; }
 
-        /* پاپ اپس */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
         .modal-box { background: white; color: #1e293b; padding: 30px; border-radius: 20px; width: 100%; text-align: center; }
