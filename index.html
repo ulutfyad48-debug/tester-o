@@ -2,353 +2,82 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="craaa-hVk8hn6EmkNmzBKquCLWbXEIYjAjGJi36PL-k" />
-<meta name="description" content="ناولستان: اردو ناولز، بہترین شاعری اور پریمیم ادبی مواد کا مستند مرکز۔">
-<meta name="keywords" content="Urdu Novels, Novelistan, Urdu Poetry, Latest Urdu Novels, ناولستان, اردو ناول, شاعری">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ulutfyad48-debug.github.io/Novelistan/">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="ناولستان - پریمیم اردو پورٹل">
-<meta property="og:description" content="اردو ناولز اور شاعری کی دنیا۔ ابھی وزٹ کریں۔">
-<meta property="og:image" content="https://drive.google.com/thumbnail?id=18SlPABsEdm_mndblVL9xHUwCARh6ye7x&sz=800">
-<meta property="og:url" content="https://your-website-link.com">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="ناولستان: اردو ناولز، بہترین شاعری اور پریمیم ادبی مواد کا مستند مرکز۔">
     <title>ناولستان - پریمیم پورٹل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
     <style>
-        :root { 
-            --bg: #0a0e27; 
-            --card: #1a1f3a; 
-            --accent: #ff0a54; 
-            --accent2: #00d9ff;
-            --text: #ffffff; 
-        }
+        :root { --bg: #0a0e27; --card: #1a1f3a; --accent: #ff0a54; --accent2: #00d9ff; --text: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Noto Nastaliq Urdu', serif; 
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
-            color: var(--text);
-            min-height: 100vh;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; line-height: 1.6;
+            content-visibility: auto;
         }
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; padding: 15px; }
         
+        /* Header Optimized for CLS */
         .header { 
-            text-align: center; 
-            padding: 0;
-            background: linear-gradient(135deg, rgba(255,10,84,0.2) 0%, rgba(0,217,255,0.2) 100%);
-            border-bottom: 3px solid var(--accent); 
-            border-radius: 0 0 30px 30px; 
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(255,10,84,0.3);
-            overflow: hidden;
-            position: relative;
-        }
-        .header-cover {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-        .header-content {
-            padding: 30px 10px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(10,14,39,0.8) 100%);
-            position: relative;
-            margin-top: -80px;
-        }
-        .header h1 { 
-            font-size: 3.5rem; 
-            color: #fff; 
-            cursor: pointer;
-            text-shadow: 0 0 20px rgba(255,10,84,0.8);
-            margin-bottom: 10px;
-        }
-        .header p {
-            color: var(--accent2);
-            font-size: 1.1rem;
-        }
-
-        .menu-grid { display: grid; gap: 20px; }
-        .nav-btn { 
+            text-align: center; border-bottom: 3px solid var(--accent); 
+            border-radius: 0 0 30px 30px; margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(255,10,84,0.2);
+            overflow: hidden; position: relative;
             background: var(--card);
-            padding: 0;
-            border-radius: 20px; 
-            border: 2px solid transparent;
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            overflow: hidden;
-            position: relative;
         }
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            opacity: 0;
-            transition: 0.4s;
-        }
-        .nav-btn:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255,10,84,0.4);
-        }
-        .nav-btn:hover::before {
-            opacity: 0.1;
-        }
-        .nav-btn img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-        .nav-btn h3 {
-            padding: 20px;
-            text-align: center;
-            font-size: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
+        .header-cover { width: 100%; height: 220px; object-fit: cover; display: block; aspect-ratio: 16/9; }
+        .header-content { padding: 25px 10px; background: linear-gradient(to bottom, transparent, rgba(10,14,39,0.9)); margin-top: -70px; position: relative; }
+        .header h1 { font-size: 3rem; text-shadow: 0 0 15px rgba(255,10,84,0.6); cursor: pointer; }
 
-        .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .card { 
-            background: linear-gradient(135deg, #2a2f4a 0%, #1a1f3a 100%);
-            color: var(--text);
-            padding: 20px 10px; 
-            border-radius: 15px; 
-            text-align: center; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border: 2px solid #3a3f5a;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .card:hover::before {
-            opacity: 0.2;
-        }
-        .card span {
-            position: relative;
-            z-index: 1;
-        }
-        .card.locked { 
-            background: linear-gradient(135deg, #2a2f4a 0%, #1a1f3a 100%);
-            opacity: 0.6;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255,10,84,0.3);
-            border-color: var(--accent);
-        }
+        .menu-grid { display: grid; gap: 15px; }
+        .nav-btn { background: var(--card); border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
+        .nav-btn:active { transform: scale(0.96); }
+        .nav-btn img { width: 100%; height: 160px; object-fit: cover; }
+        .nav-btn h3 { padding: 15px; text-align: center; font-size: 1.3rem; }
 
-        .modal { 
-            display: none; 
-            position: fixed; 
-            inset: 0; 
-            background: rgba(0,0,0,0.95); 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 1000; 
-            padding: 20px; 
-        }
+        .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: #1a1f3a; padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid #3a3f5a; cursor: pointer; }
+        .card.locked { opacity: 0.7; border-style: dashed; border-color: var(--accent); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-box { 
-            background: linear-gradient(135deg, #1a1f3a 0%, #2a2f4a 100%);
-            color: var(--text);
-            padding: 35px; 
-            border-radius: 25px; 
-            width: 100%; 
-            max-width: 400px; 
-            text-align: center;
-            border: 2px solid var(--accent);
-            box-shadow: 0 20px 60px rgba(255,10,84,0.5);
-        }
-        .modal-box h2 {
-            color: var(--accent);
-            margin-bottom: 15px;
-            font-size: 2rem;
-        }
+        .modal-box { background: #1a1f3a; padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; border: 2px solid var(--accent); }
         
-        .wa-container { display: flex; gap: 10px; margin: 20px 0; }
-        .btn-wa { 
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: white; 
-            text-decoration: none; 
-            padding: 15px; 
-            display: block; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            flex: 1; 
-            text-align: center;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        .btn-wa:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(34,197,94,0.4);
-            border-color: #dcfce7;
-        }
+        .wa-container { display: flex; gap: 8px; margin: 15px 0; }
+        .btn-wa { background: #16a34a; color: #fff; text-decoration: none; padding: 12px; border-radius: 10px; flex: 1; font-size: 0.9rem; font-weight: bold; }
+        .btn-back { background: var(--accent); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
         
-        .btn-back { 
-            background: linear-gradient(135deg, var(--accent) 0%, #c70039 100%);
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            width: 100%; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        .btn-back:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255,10,84,0.4);
-        }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; color: #fff; border: 1px solid var(--accent2); border-radius: 8px; text-align: center; font-size: 1.2rem; }
+        .btn-verify { background: var(--accent2); border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; color: #000; }
+        .close-btn { margin-top: 15px; cursor: pointer; display: inline-block; color: var(--accent); font-weight: bold; }
         
-        input { 
-            width: 100%; 
-            padding: 16px; 
-            margin: 15px 0; 
-            border: 2px solid #3a3f5a;
-            background: #0a0e27;
-            color: var(--text);
-            border-radius: 12px; 
-            text-align: center; 
-            font-size: 1.3rem;
-            font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--accent2);
-            box-shadow: 0 0 15px rgba(0,217,255,0.3);
-        }
-        
-        .btn-code {
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            border: 2px solid var(--accent2);
-            color: var(--accent2);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        .btn-code:hover {
-            background: var(--accent2);
-            color: #0a0e27;
-        }
-        
-        .btn-verify {
-            background: linear-gradient(135deg, var(--accent2) 0%, #0284c7 100%);
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        .btn-verify:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,217,255,0.4);
-        }
-        
-        .close-btn {
-            margin-top: 20px;
-            cursor: pointer;
-            color: var(--accent);
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .close-btn:hover {
-            color: var(--accent2);
-        }
-        
-        .novel-list-card {
-            background: linear-gradient(135deg, #2a2f4a 0%, #1a1f3a 100%);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid #3a3f5a;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .novel-list-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .novel-list-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255,10,84,0.4);
-            border-color: var(--accent);
-        }
-        .novel-list-card:hover::before {
-            opacity: 0.15;
-        }
-        .novel-list-card h3 {
-            font-size: 2rem;
-            color: var(--accent2);
-            position: relative;
-            z-index: 1;
-            margin-bottom: 10px;
-        }
-        .novel-list-card p {
-            color: var(--text);
-            position: relative;
-            z-index: 1;
-            opacity: 0.8;
-        }
+        .novel-list-card { background: var(--card); padding: 25px; border-radius: 15px; border: 1px solid #3a3f5a; margin-bottom: 15px; text-align: center; }
+        footer { text-align: center; padding: 20px; opacity: 0.6; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
     <div id="home-screen" class="container">
         <header class="header">
-            <img src="https://drive.google.com/thumbnail?id=18SlPABsEdm_mndblVL9xHUwCARh6ye7x&sz=w800" alt="Novelistan Cover" class="header-cover">
+            <img src="https://drive.google.com/thumbnail?id=18SlPABsEdm_mndblVL9xHUwCARh6ye7x&sz=w800" alt="Cover" class="header-cover" loading="eager">
             <div class="header-content">
                 <h1 onclick="location.reload()">ناولستان</h1>
-                <p>✨ تمام سیکشنز - آٹو اپ ڈیٹ ✨</p>
+                <p>✨ پریمیم اردو پورٹل ✨</p>
             </div>
         </header>
         <div class="menu-grid">
             <div class="nav-btn" onclick="openSection('novel')">
-                <img src="https://drive.google.com/thumbnail?id=1A6cQPJd5qacANztlmKyU6a5xiKgNAUuz&sz=w500" alt="Novel">
+                <img src="https://drive.google.com/thumbnail?id=1A6cQPJd5qacANztlmKyU6a5xiKgNAUuz&sz=w400" alt="Novel" loading="lazy">
                 <h3>📖 ناول پڑھیں</h3>
             </div>
             <div class="nav-btn" onclick="openSection('poetry')">
-                <img src="https://drive.google.com/thumbnail?id=1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe&sz=w500" alt="Poetry">
+                <img src="https://drive.google.com/thumbnail?id=1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe&sz=w400" alt="Poetry" loading="lazy">
                 <h3>📜 اردو شاعری</h3>
             </div>
-            <div class="nav-btn" onclick="openSection('codewords')">
-                <img src="https://drive.google.com/thumbnail?id=11c5Imzwd7sOJ_yEL6gvgDQy85WW0Mvsi&sz=w500" alt="Codewords">
-                <h3>🔐 کوڈ ورڈز</h3>
-            </div>
             <div class="nav-btn" onclick="openSection('about')">
-                <img src="https://drive.google.com/thumbnail?id=1bAfC0S2euvxZQKuawj_nVQGOiK9S41N7&sz=w500" alt="About">
+                <img src="https://drive.google.com/thumbnail?id=1bAfC0S2euvxZQKuawj_nVQGOiK9S41N7&sz=w400" alt="Author" loading="lazy">
                 <h3>👤 مصنف</h3>
             </div>
         </div>
@@ -356,7 +85,6 @@
 
     <div id="novel-list-screen" class="container" style="display:none;">
         <button class="btn-back" onclick="location.reload()">🏠 ہوم پیج</button>
-        <h2 style="text-align:center; margin-bottom:20px; color:var(--accent);">📚 ناول منتخب کریں</h2>
         <div id="novels-container"></div>
     </div>
 
@@ -369,13 +97,12 @@
     <div id="pay-modal" class="modal">
         <div class="modal-box">
             <h2>🔒 لاک</h2>
-            <p id="pay-info" style="margin:20px 0; font-weight:bold; font-size:1.1rem;"></p>
-            <p style="margin: 10px 0; font-size: 0.95rem; color: var(--accent2);">💬 دونوں میں سے کسی ایک نمبر پر رابطہ کریں:</p>
+            <p id="pay-info" style="margin:15px 0; white-space: pre-line;"></p>
             <div class="wa-container">
-                <a id="wa-link-1" href="#" class="btn-wa" target="_blank">📱 واٹس ایپ 1</a>
-                <a id="wa-link-2" href="#" class="btn-wa" target="_blank">📱 واٹس ایپ 2</a>
+                <a id="wa-link-1" href="#" class="btn-wa" target="_blank">واٹس ایپ 1</a>
+                <a id="wa-link-2" href="#" class="btn-wa" target="_blank">واٹس ایپ 2</a>
             </div>
-            <button onclick="showCodeInput()" class="btn-code">🔑 میرے پاس کوڈ ہے</button>
+            <button onclick="showCodeInput()" style="background:none; border:1px solid var(--accent2); color:var(--accent2); padding:10px; width:100%; border-radius:8px; cursor:pointer;">🔑 میرے پاس کوڈ ہے</button>
             <p onclick="closeModals()" class="close-btn">❌ بند کریں</p>
         </div>
     </div>
@@ -383,17 +110,13 @@
     <div id="code-modal" class="modal">
         <div class="modal-box">
             <h2>🔑 کوڈ درج کریں</h2>
-            <p style="margin-bottom: 15px; color: var(--accent2);">آج کا کوڈ یہاں لکھیں</p>
             <input type="text" id="user-code" placeholder="XXXXXX">
             <button class="btn-verify" onclick="checkAccess()">✅ تصدیق کریں</button>
             <p onclick="closeModals()" class="close-btn">❌ کینسل</p>
         </div>
     </div>
-<footer style="text-align: center; padding: 20px; color: var(--accent2); font-size: 0.8rem; opacity: 0.7; font-family: sans-serif;">
-    <p>&copy; 2026 Novelistan - All Rights Reserved</p>
-    <p>اردو ناولز اور شاعری کا پریمیم پورٹل</p>
-</footer>
 
+    <footer>&copy; 2026 Novelistan - Premium Urdu Portal</footer>
     <script src="script.js"></script>
 </body>
 </html>
