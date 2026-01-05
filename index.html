@@ -51,12 +51,6 @@
         
         .btn-back { background: var(--accent); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 10px; margin-bottom: 15px; cursor: pointer; font-weight: bold; font-family: inherit; }
 
-        /* Puzzle Section UI */
-        .puzzle-section { background: linear-gradient(135deg, #1a1f3a 0%, #0a0e27 100%); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--accent2); }
-        .timer-circle { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--accent); line-height: 72px; font-size: 28px; margin: 0 auto 15px; color: var(--accent); font-weight: bold; }
-        .q-text { font-size: 1.2rem; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; border-right: 4px solid var(--accent2); }
-        .btn-opt { background: #2d2d3a; color: white; border: 1px solid #444; width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; cursor: pointer; font-family: inherit; }
-        
         /* Modals */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
@@ -88,7 +82,7 @@
                 <img src="https://drive.google.com/thumbnail?id=1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe&sz=w400">
                 <h3>📜 اردو شاعری</h3>
             </div>
-            <div class="nav-btn" onclick="openSection('puzzle')">
+            <div class="nav-btn" onclick="goToPuzzle()">
                 <img src="https://drive.google.com/thumbnail?id=11c5Imzwd7sOJ_yEL6gvgDQy85WW0Mvsi&sz=w400">
                 <h3>🎮 پزل گیم</h3>
             </div>
@@ -103,22 +97,6 @@
         <button class="btn-back" onclick="goHome()">🏠 ہوم پیج</button>
         <h2 id="section-title" style="text-align:center; margin-bottom:15px;"></h2>
         <div id="items-list" class="items-grid"></div>
-    </div>
-
-    <div id="puzzle-screen" class="container" style="display:none;">
-        <button class="btn-back" onclick="goHome()">🏠 ہوم پیج</button>
-        <div id="puzzle-intro" class="puzzle-section">
-            <h2>🎮 پزل چیلنج</h2>
-            <p style="margin:10px 0;">فیس: 50 روپے | انعام: 1000 روپے</p>
-            <button onclick="contactPuzzle()" style="background:#16a34a; border:none; color:white; padding:12px; width:100%; border-radius:10px; margin-top:10px; cursor:pointer; font-weight:bold;">📱 واٹس ایپ سے کوڈ لیں</button>
-            <button onclick="startPuzzleEntry()" style="background:var(--accent2); border:none; color:black; padding:12px; width:100%; border-radius:10px; margin-top:10px; cursor:pointer; font-weight:bold;">🔑 میرے پاس کوڈ ہے</button>
-        </div>
-
-        <div id="puzzle-game" class="puzzle-section" style="display:none;">
-            <div class="timer-circle" id="timer">60</div>
-            <div id="q-content" class="q-text">لوڈنگ...</div>
-            <div id="options-box"></div>
-        </div>
     </div>
 
     <div id="pay-modal" class="modal">
@@ -146,15 +124,7 @@
     <footer>&copy; 2026 Novelistan - Premium Portal</footer>
 
     <script>
-        // ==========================================
-        // ⚠️ پزل ٹائمر سیٹنگ (یہاں سے وقت بدلیں)
-        // ==========================================
-        const GAME_START_HOUR = 20; // رات 8 بجے شروع
-        const GAME_END_HOUR = 23;   // رات 11 بجے ختم
-        // ==========================================
-
         const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE';
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwk4hNSimgU__x1PHwrjJZe_596-2Ay-y6uTHamx7zYlSZP1MGg_dQXNtw73_f2VIKh/exec";
         const WA_NUMBERS = ['923159226260', '923125540048'];
         const EP_NUMBER = "03359079528";
 
@@ -166,19 +136,17 @@
 
         let unlocked = JSON.parse(localStorage.getItem('nov_unlocked')) || [];
         let currentPkg = "";
-        let puzzles = [];
-        let pIndex = 0;
-        let timer;
+
+        // پزل لنک پر بھیجنے والا فنکشن
+        function goToPuzzle() {
+            window.location.href = "https://ulutfyad48-debug.github.io/2/";
+        }
 
         function openSection(mode) {
             document.getElementById('home-screen').style.display = 'none';
-            if(mode === 'puzzle') {
-                checkPuzzleTime();
-            } else {
-                document.getElementById('content-screen').style.display = 'block';
-                document.getElementById('section-title').innerText = mode === 'novel' ? "📖 ناول کی اقساط" : "ادبی مواد";
-                loadFiles(mode);
-            }
+            document.getElementById('content-screen').style.display = 'block';
+            document.getElementById('section-title').innerText = mode === 'novel' ? "📖 ناول کی اقساط" : "ادبی مواد";
+            loadFiles(mode);
         }
 
         function goHome() { location.reload(); }
@@ -203,7 +171,6 @@
         function renderNovels(files) {
             const list = document.getElementById('items-list');
             list.innerHTML = "";
-            // اقساط کو ترتیب دینا (1 سے 100)
             for(let i=1; i<=100; i++) {
                 let pkg = getPkgInfo(i);
                 let isFree = i <= 10 || unlocked.includes(pkg.id);
@@ -249,90 +216,9 @@
             } catch(e) { alert("ایرر!"); }
         }
 
-        // --- Puzzle Logic ---
-        function checkPuzzleTime() {
-            const hour = new Date().getHours();
-            if(hour >= GAME_START_HOUR && hour < GAME_END_HOUR) {
-                document.getElementById('puzzle-screen').style.display = 'block';
-            } else {
-                alert(`پزل گیم کا وقت رات ${GAME_START_HOUR}:00 سے ${GAME_END_HOUR}:00 بجے تک ہے۔`);
-                goHome();
-            }
-        }
-
-        function contactPuzzle() {
-            const msg = encodeURIComponent("سلام! مجھے پزل گیم کا کوڈ چاہیے۔ میں نے 50 روپے ایزی پیسہ کر دیے ہیں۔");
-            window.open(`https://wa.me/${WA_NUMBERS[0]}?text=${msg}`, '_blank');
-        }
-
-        async function startPuzzleEntry() {
-            const code = prompt("اپنا پزل کوڈ درج کریں:");
-            if(!code) return;
-            
-            // تصدیق (آپ کے Google Script سے)
-            try {
-                const res = await fetch(`${SCRIPT_URL}?action=verifyCode&code=${code.toUpperCase()}`);
-                const status = await res.text();
-                if(status === "SUCCESS") {
-                    document.getElementById('puzzle-intro').style.display = 'none';
-                    document.getElementById('puzzle-game').style.display = 'block';
-                    loadPuzzles();
-                } else alert("غلط یا استعمال شدہ کوڈ!");
-            } catch(e) { alert("کنکشن ایرر!"); }
-        }
-
-        async function loadPuzzles() {
-            const res = await fetch(`${SCRIPT_URL}?action=getPuzzles`);
-            puzzles = await res.json();
-            showQuestion();
-        }
-
-        function showQuestion() {
-            if(pIndex >= 5) return finishGame();
-            const q = puzzles[pIndex];
-            document.getElementById('q-content').innerText = q.q;
-            let html = "";
-            q.opts.forEach(opt => {
-                html += `<button class="btn-opt" onclick="checkAns('${opt}', '${q.ans}')">${opt}</button>`;
-            });
-            document.getElementById('options-box').innerHTML = html;
-            startTimer();
-        }
-
-        function checkAns(selected, correct) {
-            if(selected === correct) {
-                pIndex++;
-                clearInterval(timer);
-                showQuestion();
-            } else {
-                alert("غلط جواب! گیم ختم۔");
-                location.reload();
-            }
-        }
-
-        function startTimer() {
-            let timeLeft = 60;
-            document.getElementById('timer').innerText = timeLeft;
-            clearInterval(timer);
-            timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').innerText = timeLeft;
-                if(timeLeft <= 0) {
-                    clearInterval(timer);
-                    alert("وقت ختم!");
-                    location.reload();
-                }
-            }, 1000);
-        }
-
-        function finishGame() {
-            alert("مبارک ہو! آپ جیت گئے۔ اسکرین شاٹ واٹس ایپ کریں۔");
-            location.reload();
-        }
-
-        // --- Auth Helpers ---
         function showCodeInput() { closeModals(); document.getElementById('code-modal').classList.add('active'); }
         function closeModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+        
         function verifyCode() {
             const input = document.getElementById('user-code').value.toUpperCase();
             const d = new Date();
